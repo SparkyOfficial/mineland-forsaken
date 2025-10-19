@@ -35,7 +35,7 @@ fn main() {
 }
 
 fn setup(mut commands: Commands) {
-    // базова камера і світло
+    // Create a single camera that will be used throughout the game
     commands.spawn(Camera3dBundle {
         transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..default()
@@ -50,52 +50,4 @@ fn setup(mut commands: Commands) {
         transform: Transform::from_xyz(4.0, 8.0, 4.0),
         ..default()
     });
-}
-
-// меню
-fn setup_menu(mut commands: Commands) {
-    // тут буде інтерфейс меню
-    println!("setting up menu...");
-}
-
-fn cleanup_menu(mut commands: Commands) {
-    // очистка меню
-    println!("cleaning up menu...");
-}
-
-fn menu_system() {
-    // логіка меню
-    println!("menu system running...");
-}
-
-// лоббі
-fn setup_lobby(mut commands: Commands) {
-    // тут буде інтерфейс лоббі
-    println!("setting up lobby...");
-}
-
-fn cleanup_lobby(mut commands: Commands) {
-    // очистка лоббі
-    println!("cleaning up lobby...");
-}
-
-fn lobby_system() {
-    // логіка лоббі
-    println!("lobby system running...");
-}
-
-// геймплей
-fn setup_game(mut commands: Commands) {
-    // тут буде геймплей
-    println!("setting up game...");
-}
-
-fn cleanup_game(mut commands: Commands) {
-    // очистка гри
-    println!("cleaning up game...");
-}
-
-fn game_system() {
-    // логіка гри
-    println!("game system running...");
 }

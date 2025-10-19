@@ -15,26 +15,33 @@ pub enum ButtonType {
     Quit,
 }
 
-pub fn setup_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
-    // створюємо ui камеру
-    commands.spawn(Camera2dBundle::default());
-    
+// компонент для позначення елементів меню
+#[derive(Component)]
+pub struct MenuElement;
+
+pub fn setup_menu(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+) {
     // створюємо інтерфейс меню
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                flex_direction: FlexDirection::Column,
+        .spawn((
+            NodeBundle {
+                style: Style {
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    flex_direction: FlexDirection::Column,
+                    ..default()
+                },
                 ..default()
             },
-            ..default()
-        })
+            MenuElement
+        ))
         .with_children(|parent| {
             // заголовок
-            parent.spawn(
+            parent.spawn((
                 TextBundle::from_section(
                     "Mineland Forsaken",
                     TextStyle {
@@ -47,93 +54,115 @@ pub fn setup_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                     margin: UiRect::all(Val::Px(20.0)),
                     ..default()
                 }),
-            );
+                MenuElement
+            ));
             
             // кнопка грати
             parent
-                .spawn(ButtonBundle {
-                    style: Style {
-                        width: Val::Px(250.0),
-                        height: Val::Px(65.0),
-                        margin: UiRect::all(Val::Px(10.0)),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            width: Val::Px(250.0),
+                            height: Val::Px(65.0),
+                            margin: UiRect::all(Val::Px(10.0)),
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
+                            ..default()
+                        },
+                        background_color: Color::srgb(0.15, 0.15, 0.15).into(),
                         ..default()
                     },
-                    background_color: Color::rgb(0.15, 0.15, 0.15).into(),
-                    ..default()
-                })
-                .insert(MenuButton)
+                    MenuButton,
+                    MenuElement
+                ))
                 .insert(ButtonType::Play)
                 .with_children(|parent| {
-                    parent.spawn(TextBundle::from_section(
-                        "Грати",
-                        TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Medium.ttf"),
-                            font_size: 40.0,
-                            color: Color::WHITE,
-                        },
+                    parent.spawn((
+                        TextBundle::from_section(
+                            "Грати",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Medium.ttf"),
+                                font_size: 40.0,
+                                color: Color::WHITE,
+                            },
+                        ),
+                        MenuElement
                     ));
                 });
             
             // кнопка налаштувань
             parent
-                .spawn(ButtonBundle {
-                    style: Style {
-                        width: Val::Px(250.0),
-                        height: Val::Px(65.0),
-                        margin: UiRect::all(Val::Px(10.0)),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            width: Val::Px(250.0),
+                            height: Val::Px(65.0),
+                            margin: UiRect::all(Val::Px(10.0)),
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
+                            ..default()
+                        },
+                        background_color: Color::srgb(0.15, 0.15, 0.15).into(),
                         ..default()
                     },
-                    background_color: Color::rgb(0.15, 0.15, 0.15).into(),
-                    ..default()
-                })
-                .insert(MenuButton)
+                    MenuButton,
+                    MenuElement
+                ))
                 .insert(ButtonType::Settings)
                 .with_children(|parent| {
-                    parent.spawn(TextBundle::from_section(
-                        "Налаштування",
-                        TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Medium.ttf"),
-                            font_size: 40.0,
-                            color: Color::WHITE,
-                        },
+                    parent.spawn((
+                        TextBundle::from_section(
+                            "Налаштування",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Medium.ttf"),
+                                font_size: 40.0,
+                                color: Color::WHITE,
+                            },
+                        ),
+                        MenuElement
                     ));
                 });
             
             // кнопка виходу
             parent
-                .spawn(ButtonBundle {
-                    style: Style {
-                        width: Val::Px(250.0),
-                        height: Val::Px(65.0),
-                        margin: UiRect::all(Val::Px(10.0)),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            width: Val::Px(250.0),
+                            height: Val::Px(65.0),
+                            margin: UiRect::all(Val::Px(10.0)),
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
+                            ..default()
+                        },
+                        background_color: Color::srgb(0.15, 0.15, 0.15).into(),
                         ..default()
                     },
-                    background_color: Color::rgb(0.15, 0.15, 0.15).into(),
-                    ..default()
-                })
-                .insert(MenuButton)
+                    MenuButton,
+                    MenuElement
+                ))
                 .insert(ButtonType::Quit)
                 .with_children(|parent| {
-                    parent.spawn(TextBundle::from_section(
-                        "Вийти",
-                        TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Medium.ttf"),
-                            font_size: 40.0,
-                            color: Color::WHITE,
-                        },
+                    parent.spawn((
+                        TextBundle::from_section(
+                            "Вийти",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Medium.ttf"),
+                                font_size: 40.0,
+                                color: Color::WHITE,
+                            },
+                        ),
+                        MenuElement
                     ));
                 });
         });
 }
 
-pub fn cleanup_menu(mut commands: Commands, menu_query: Query<Entity, With<MenuButton>>) {
-    // видаляємо всі кнопки меню
+pub fn cleanup_menu(
+    mut commands: Commands,
+    menu_query: Query<Entity, With<MenuElement>>,
+) {
+    // видаляємо всі елементи меню
     for entity in menu_query.iter() {
         commands.entity(entity).despawn();
     }
