@@ -2,6 +2,8 @@
 // author: Андрій Будильников
 
 use bevy::prelude::*;
+use bevy::input::mouse::MouseMotion;
+use bevy::window::WindowMode;
 
 mod menu;
 mod lobby;
@@ -19,7 +21,15 @@ enum GameState {
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Mineland Forsaken".to_string(),
+                mode: WindowMode::Windowed,
+                ..default()
+            }),
+            ..default()
+        }))
+        .add_event::<MouseMotion>()
         .init_state::<GameState>()
         .add_systems(Startup, setup)
         .add_systems(OnEnter(GameState::Menu), menu::setup_menu)
