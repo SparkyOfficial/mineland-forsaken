@@ -1,0 +1,20 @@
+[package]
+name = "mineland-forsaken"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.14", features = ["dynamic_linking"] }
+# for 3D physics
+bevy_rapier3d = { version = "0.27" }
+# for async operations
+tokio = { version = "1.0", features = ["full"] }
+
+# Asset compression
+bevy_asset_loader = "0.20"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
