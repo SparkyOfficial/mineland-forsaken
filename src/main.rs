@@ -30,8 +30,10 @@ fn main() {
             ..default()
         }))
         .add_event::<MouseMotion>()
+        .add_event::<network::NetworkMessage>()
+        .add_event::<network::LobbyMessage>()
         .init_state::<GameState>()
-        .add_systems(Startup, setup)
+        .add_systems(Startup, (setup, network::setup_network))
         .add_systems(OnEnter(GameState::Menu), menu::setup_menu)
         .add_systems(OnExit(GameState::Menu), menu::cleanup_menu)
         .add_systems(OnEnter(GameState::Lobby), lobby::setup_lobby)
@@ -41,6 +43,7 @@ fn main() {
         .add_systems(Update, menu::menu_system.run_if(in_state(GameState::Menu)))
         .add_systems(Update, lobby::lobby_system.run_if(in_state(GameState::Lobby)))
         .add_systems(Update, game::game_system.run_if(in_state(GameState::Game)))
+        .add_systems(Update, network::network_system)
         .run();
 }
 
