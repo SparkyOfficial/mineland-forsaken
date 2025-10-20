@@ -79,54 +79,9 @@ pub fn setup_network(mut commands: Commands) {
 }
 
 pub fn network_system(
-    mut network_state: ResMut<NetworkState>,
-    mut lobby_state: ResMut<LobbyState>,
+    _network_state: ResMut<NetworkState>,
+    _lobby_state: ResMut<LobbyState>,
 ) {
     // логіка мережі
-    if network_state.connected {
-        println!("network system running, connected to server");
-    } else {
-        println!("network system running, not connected");
-    }
-}
-
-// функція для створення сервера
-pub fn start_server(mut commands: Commands) {
-    println!("starting server...");
-    commands.insert_resource(NetworkState {
-        is_host: true,
-        connected: true,
-        player_name: "Host".to_string(),
-        server_address: Some(SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 8080)),
-    });
-}
-
-// функція для підключення до сервера
-pub fn connect_to_server(mut commands: Commands, ip: String, port: u16) {
-    println!("connecting to server at {}:{}", ip, port);
-    if let Ok(addr) = ip.parse::<IpAddr>() {
-        commands.insert_resource(NetworkState {
-            is_host: false,
-            connected: true,
-            player_name: "Client".to_string(),
-            server_address: Some(SocketAddr::new(addr, port)),
-        });
-    } else {
-        println!("invalid IP address: {}", ip);
-    }
-}
-
-// функція для створення лобі
-pub fn create_lobby(player_name: String) -> LobbyMessage {
-    LobbyMessage::CreateLobby { player_name }
-}
-
-// функція для приєднання до лобі
-pub fn join_lobby(player_name: String, lobby_id: u32) -> LobbyMessage {
-    LobbyMessage::JoinLobby { player_name, lobby_id }
-}
-
-// функція для отримання списку лобі
-pub fn list_lobbies() -> LobbyMessage {
-    LobbyMessage::ListLobbies
+    println!("network system running");
 }

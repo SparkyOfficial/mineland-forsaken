@@ -2,13 +2,13 @@
 // author: Андрій Будильников
 
 use serde::{Deserialize, Serialize};
-use std::net::{TcpListener, TcpStream, SocketAddr};
+use std::net::{TcpListener, TcpStream};
 use std::io::{Read, Write};
 use std::thread;
 use std::collections::HashMap;
 
 // повідомлення для тестування
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum TestMessage {
     Ping,
     Pong,
@@ -19,7 +19,7 @@ pub enum TestMessage {
 }
 
 // інформація про тестове лобі
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TestLobbyInfo {
     pub id: u32,
     pub name: String,
@@ -27,12 +27,14 @@ pub struct TestLobbyInfo {
 }
 
 // тестовий сервер
+#[derive(Clone)]
 pub struct TestServer {
     lobbies: HashMap<u32, TestLobby>,
     next_lobby_id: u32,
 }
 
 // тестове лобі
+#[derive(Clone)]
 pub struct TestLobby {
     id: u32,
     name: String,
@@ -108,9 +110,9 @@ pub fn run_test_server() -> std::io::Result<()> {
         match stream {
             Ok(stream) => {
                 println!("New connection");
-                let mut server_clone = server.clone();
+                let server_clone = server.clone();
                 thread::spawn(move || {
-                    handle_client(stream, &mut server_clone);
+                    handle_client(stream, server_clone);
                 });
             }
             Err(e) => {
@@ -123,7 +125,7 @@ pub fn run_test_server() -> std::io::Result<()> {
 }
 
 // обробка клієнта
-fn handle_client(mut stream: TcpStream, server: &mut TestServer) {
+fn handle_client(mut stream: TcpStream, mut server: TestServer) {
     let mut buffer = [0; 1024];
     
     loop {

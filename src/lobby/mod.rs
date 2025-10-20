@@ -464,9 +464,9 @@ pub fn lobby_system(
         (&Interaction, Option<&StartGameButton>, Option<&BackToMenuButton>, Option<&HostGameButton>, Option<&ConnectButton>),
         (Changed<Interaction>, With<Button>)>,
     network_state: Res<network::NetworkState>,
-    ip_query: Query<&Children, With<IpInputField>>,
-    port_query: Query<&Children, With<PortInputField>>,
-    text_query: Query<&mut Text>,
+    _ip_query: Query<&Children, With<IpInputField>>,
+    _port_query: Query<&Children, With<PortInputField>>,
+    _text_query: Query<&mut Text>,
 ) {
     for (interaction, start_button, back_button, host_button, connect_button) in &mut interaction_query {
         if *interaction == Interaction::Pressed {

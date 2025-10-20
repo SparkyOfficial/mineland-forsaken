@@ -12,6 +12,8 @@ tokio = { version = "1.0", features = ["full"] }
 # for serialization
 serde = { version = "1.0", features = ["derive"] }
 bincode = "1.3"
+# for random numbers
+fastrand = "2.0"
 
 # Asset compression
 bevy_asset_loader = "0.20"
